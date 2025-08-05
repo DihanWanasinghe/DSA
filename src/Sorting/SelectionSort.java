@@ -10,31 +10,29 @@ public class SelectionSort {
     }
     private static void selectionSort(int[] arr){
 
-        int maxIndex=0;
-        int maxValue = arr[maxIndex];
+
         int sortingPosition = arr.length-1;
-        boolean changed= false;
+
         while(sortingPosition>0) {
+            int maxIndex=sortingPosition;
+            int maxValue = arr[maxIndex];
             for (int i = 0; i < sortingPosition; i++) {
 
                 if (arr[i] > maxValue) {
                     maxValue = arr[i];
                     maxIndex = i;
-                    changed = true;
                 }
 
             }
-            if(changed)
+            if(maxIndex != sortingPosition )
             {
                 int temp = arr[sortingPosition];
                 arr[sortingPosition]=maxValue;
                 arr[maxIndex]=temp;
-                changed = false;
 
             }
             sortingPosition--;
-            maxIndex =sortingPosition;
-            maxValue = arr[maxIndex];
+
         }
         System.out.println("Sorted array: ");
         for(int i=0;i<arr.length;i++){
