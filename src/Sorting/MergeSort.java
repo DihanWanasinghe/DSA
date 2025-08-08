@@ -16,13 +16,13 @@ public class MergeSort {
             int mid = (first + last) / 2;
              int [] ar1 = mergeSort(arr,first,mid);
              int [] ar2 = mergeSort(arr,mid+1,last);
-           int [] ar3 =    merge(ar1,ar2,first,last,mid);
+           int [] ar3 =    merge(ar1,ar2);
            return ar3;
         }
         return new int[] { arr[first] };
     }
 
-    private static int[]  merge(int [] arr1, int [] arr2, int first, int last ,int mid) {
+    private static int[]  merge(int [] arr1, int [] arr2) {
 
         int j =0;
         int k = 0;
