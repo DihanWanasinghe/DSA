@@ -7,6 +7,7 @@ public class Tree {
         Node left;
         Node right;
         Node parent;
+        int height;
 
         Node(int data){
             this.data = data;
@@ -24,6 +25,12 @@ public class Tree {
             this.left = left;
             this.right = right;
             this.parent = parent;
+        }
+        public void setHeight(int height){
+            this.height = height;
+        }
+        public int getHeight(){
+            return height;
         }
     }
 

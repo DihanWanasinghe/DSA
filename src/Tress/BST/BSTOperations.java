@@ -1,5 +1,7 @@
 package Tress.BST;
 
+import static javax.management.Query.in;
+
 public class BSTOperations {
 
     public static void main(String[] args) {
@@ -127,7 +129,7 @@ public class BSTOperations {
             return;
         }
 
-            printTreeIncreasing(root.left);
+        printTreeIncreasing(root.left);
         System.out.println(root.data);
         printTreeIncreasing(root.right);
 
@@ -144,6 +146,83 @@ public class BSTOperations {
 
 
     }
+    private static int findHeight(Tree.Node node) {
+        if (node == null) {
+            return 0; // base case: empty tree has height 0
+        }
+        int leftHeight = findHeight(node.left);
+        int rightHeight = findHeight(node.right);
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
+
+    private static  void leftRotation(Tree.Node unbalancedNegativeParent) {
+
+        if(unbalancedNegativeParent == null || unbalancedNegativeParent.right == null){
+            return;
+        }
+
+        unbalancedNegativeParent.right.parent = unbalancedNegativeParent.parent;
+        if(unbalancedNegativeParent.parent != null) {
+            if (unbalancedNegativeParent == unbalancedNegativeParent.parent.left) {
+                unbalancedNegativeParent.parent.left = unbalancedNegativeParent.right;
+            } else {
+                unbalancedNegativeParent.parent.right = unbalancedNegativeParent.right;
+            }
+        }
+
+
+        unbalancedNegativeParent.parent= unbalancedNegativeParent.right;
+            Tree.Node temp = unbalancedNegativeParent.right.left;
+            if(unbalancedNegativeParent.right.left != null) {
+                unbalancedNegativeParent.right.left.parent = unbalancedNegativeParent;
+            }// Safe because of the if check
+            unbalancedNegativeParent.right.left = unbalancedNegativeParent;
+            unbalancedNegativeParent.right = temp;
+
+
+    }
+
+    private  static void rightRotation(Tree.Node unbalancedPositiveParent) {
+
+        if(unbalancedPositiveParent == null || unbalancedPositiveParent.left == null){
+            return;
+        }
+        Tree.Node positiveChild = unbalancedPositiveParent.left;
+        positiveChild.parent = unbalancedPositiveParent.parent;
+
+        if(unbalancedPositiveParent.parent != null) {
+            if (unbalancedPositiveParent == unbalancedPositiveParent.parent.left) {
+                unbalancedPositiveParent.parent.left = positiveChild;
+            } else {
+                unbalancedPositiveParent.parent.right = positiveChild;
+            }
+        }
+
+        unbalancedPositiveParent.parent = positiveChild ;
+        unbalancedPositiveParent.left = positiveChild.right ;
+
+        if(positiveChild.right != null) {
+            positiveChild.right.parent = unbalancedPositiveParent;
+        }
+        positiveChild.right = unbalancedPositiveParent ;
+    }
+
+    private static void rightLeftRotation(Tree.Node unbalancedNegativeParent) {
+        if(unbalancedNegativeParent == null || unbalancedNegativeParent.right == null || unbalancedNegativeParent.right.left == null){
+            return;
+        }
+        rightRotation(unbalancedNegativeParent.right);
+        leftRotation(unbalancedNegativeParent);
+    }
+
+    private static  void leftRightRotation(Tree.Node unbalancedPositiveParent) {
+        if(unbalancedPositiveParent == null || unbalancedPositiveParent.left == null || unbalancedPositiveParent.left.right == null){
+            return;
+        }
+        leftRotation(unbalancedPositiveParent.left);
+        rightRotation(unbalancedPositiveParent);
+    }
+
 }
 
 
