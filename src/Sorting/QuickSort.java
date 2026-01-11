@@ -193,4 +193,58 @@ public class QuickSort {
         arr[j] = temp;
     }
 
+
+    private static int partitionTest(int low , int high ,int [] arr){
+
+        Random random = new Random();
+
+        int i = low +1;
+        int j = high;
+        int pivotIndex =  random.nextInt(low,high+1) ;
+        int pivot = arr[pivotIndex];
+
+        int temp = arr[low];
+        arr[low] = arr[pivotIndex];
+        arr[pivotIndex] = temp;
+
+        while(i<j){
+
+            while(i<=high ){
+                if(arr[i] >= pivot){
+                    break;
+                }
+                i++;
+            }
+
+            while(j>low ) {
+                if (arr[j] < pivot) {
+                    break;
+                }
+                j--;
+            }
+
+            if (j >i) {
+                int temp3 = arr[j];
+                arr[j] = arr[i];
+                arr[i] = temp3;
+            }
+
+        }
+
+        arr[low] = arr[j];
+        arr[j] = pivot;
+        return j;
+
+    }
+
+    private static void quickSortTest(int low , int high , int [] arr){
+
+        if(high>low){
+           int pivotIndex = partitionTest(low,high,arr);
+              quickSortTest(low,pivotIndex-1,arr);
+              quickSortTest(pivotIndex+1,high,arr);
+        }
+    }
+
+
 }

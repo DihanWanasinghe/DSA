@@ -53,4 +53,53 @@ public class MergeSort {
 
         return arr;
     }
+
+    private  static void  mergeTest (int [] arr , int first , int last , int mid) {
+         int [] arrayBase =  new int [last - first + 1];
+         int currentIndex = 0;
+            int i = first;
+            int j = mid + 1;
+
+            while (i <= mid && j <= last) {
+                if(arr[j] < arr[i]) {
+                    arrayBase[currentIndex] = arr[j];
+                    j++;
+                    currentIndex++;
+                }else{
+                    arrayBase[currentIndex] = arr[i];
+                    i++;
+                    currentIndex++;
+                }
+
+            }
+            while(i <= mid) {
+                arrayBase[currentIndex] = arr[i];
+                i++;
+                currentIndex++;
+            }
+            while(j <= last) {
+                arrayBase[currentIndex] = arr[j];
+                j++;
+                currentIndex++;
+            }
+
+            for(int k = 0; k < arrayBase.length; k++) {
+                arr[first + k] = arrayBase[k];
+            }
+
+    }
+
+    private static void mergeSortTest(int [] arr, int first , int last){
+        if(first < last){
+            int mid = first + (last-first) /2 ;
+            mergeSortTest(arr, first ,mid);
+            mergeSortTest(arr, mid + 1, last);
+            mergeTest(arr, first , last , mid);
+        }
+    }
 }
+
+
+
+
+

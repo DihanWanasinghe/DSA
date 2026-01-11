@@ -1,5 +1,6 @@
 package Heap;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Heap {
@@ -23,7 +24,7 @@ public class Heap {
         int currentIndex = lastIndex ;
         while(currentIndex > 0) {
             int parent  = (currentIndex -1) / 2;
-            if(heapArray[currentIndex] > value) {
+            if(heapArray[parent] > value) {
                 heapArray[currentIndex] = heapArray[parent];
                 currentIndex = parent;
             }else{
@@ -101,6 +102,83 @@ public class Heap {
         System.out.println();
         System.out.println("Last Index is " + lastIndex);
         System.out.println("Heap Size is " + heapSize);
+    }
+
+    public void heapify(int [] arr) {
+        int lastIndex = arr.length - 1;
+        int lastParent = (lastIndex - 1) / 2;
+        while (lastParent >= 0) {
+
+            int leftChildIndex = lastParent * 2 + 1;
+            int rightChildIndex = lastParent * 2 + 2;
+            int lowestChildIndex = lastParent;
+
+            if (arr[leftChildIndex] < arr[lastParent]) {
+                lowestChildIndex = leftChildIndex;
+            }
+            if (rightChildIndex < arr.length && arr[rightChildIndex] < arr[lowestChildIndex]) {
+                lowestChildIndex = rightChildIndex;
+            }
+            if(lowestChildIndex != lastParent) {
+                int temp = arr[lastParent];
+                arr[lastParent] = arr[lowestChildIndex];
+//                arr[lowestChildIndex] = temp;
+                int currentIndex = lowestChildIndex;
+                while(currentIndex <= lastIndex) {
+                    leftChildIndex = currentIndex * 2 + 1;
+                    rightChildIndex = currentIndex * 2 + 2;
+                    int low = currentIndex;
+                    if(leftChildIndex <= lastIndex && arr[leftChildIndex] < arr[low]) {
+                        low = leftChildIndex;
+                    }
+
+                    if(rightChildIndex <= lastIndex && arr[rightChildIndex] < arr[low]) {
+                        low = rightChildIndex;
+                    }
+
+
+                    if(low !=currentIndex){
+//                        int temp2 = arr[currentIndex];
+                        arr[currentIndex] = arr[low];
+//                        arr[low] = temp2;
+                        currentIndex = low;
+                    }else{
+                        break;
+                    }
+
+
+
+
+                }
+                arr[currentIndex] = temp;
+
+            }
+
+            lastParent--;
+
+        }
+    }
+
+    public void insertMaxHeap(int value) {
+
+        if(lastIndex == heapArray.length) {
+            System.out.println("Heap is full");
+            return;
+        }
+
+        int currentIndex = lastIndex ;
+        while(currentIndex > 0) {
+            int parent  = (currentIndex -1) / 2;
+            if(heapArray[parent] < value) {
+                heapArray[currentIndex] = heapArray[parent];
+                currentIndex = parent;
+            }else{
+                break;
+            }
+
+        }
+        heapArray[currentIndex] = value;
+        lastIndex++;
     }
 }
 

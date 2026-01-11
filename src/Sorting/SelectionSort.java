@@ -40,4 +40,41 @@ public class SelectionSort {
         }
     }
 
+    private static void selectionSortTest(int[] arr){
+        //get the length , compare all  , get the higheset , move it to last
+        //reduce the length by 1
+         // compare all until i t, them move to the next end
+         // until linght is 1
+
+        int initialLength =  arr.length;
+        while(initialLength >1){
+            int maxIndex =0;
+            for(int i=1;i<initialLength;i++){
+                if(arr[i]>arr[maxIndex]){
+                    maxIndex = i;
+                }
+
+            }
+            if(maxIndex != initialLength-1){
+                arr[initialLength-1] = arr[maxIndex] + arr[initialLength-1];
+                arr[maxIndex] = arr[initialLength-1] - arr[maxIndex];
+                arr[initialLength-1] = arr[initialLength-1] - arr[maxIndex];//swap
+            }
+
+
+            initialLength--;
+
+
+        }
+
+        System.out.println("Sorted array: ");
+        for(int i=0;i<arr.length;i++) {
+            System.out.print(arr[i] + " ");
+        }
+
+
+
+
+    }
+
 }

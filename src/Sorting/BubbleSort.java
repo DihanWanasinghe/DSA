@@ -29,4 +29,32 @@ public class BubbleSort {
             sortingIndex--;
         }
     }
+
+    private static  void bubbleSortTest(int [] arr){
+
+        //get the first
+        // compare it with the next
+        //if larger swap
+        //repeat until the end
+        //next iteration is done untill length-2
+        //repeat until length is 1
+
+        int length = arr.length;
+        boolean swapped = true;
+        while(length >1 && swapped) {
+
+                swapped = false;
+                for (int i = 0; i <= length - 2; i++) {
+                    if (arr[i] > arr[i + 1]) {
+                        int temp = arr[i];
+                        arr[i] = arr[i + 1];
+                        arr[i + 1] = temp;
+                        swapped = true;
+                    }
+                }
+            length--;
+
+        }
+
+    }
 }
