@@ -8,6 +8,7 @@ public class Tree {
         Node right;
         Node parent;
         int height;
+        int balanceFactor;
 
         Node(int data){
             this.data = data;
