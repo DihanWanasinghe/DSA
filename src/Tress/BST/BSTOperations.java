@@ -38,9 +38,11 @@ public class BSTOperations {
         // parent = node;
         if (value < node.data) {
             node.left = insertNode(node.left, value);
+            node.left.parent = node;
 
         } else if (value > node.data) {
             node.right = insertNode(node.right, value);
+            node.right.parent = node;
 
         } else {
             System.out.println("Value already exists");
@@ -60,9 +62,10 @@ public class BSTOperations {
     }
 
     private static void updateHeight(Tree.Node node) {
-        node.height = Math.max(findHeight(node.left), findHeight(node.right)) + 1;
-        node.balanceFactor = findHeight(node.left) - findHeight(node.right);
-    }
+            node.height = Math.max(findHeight(node.left), findHeight(node.right)) + 1;
+            node.balanceFactor = findHeight(node.left) - findHeight(node.right);
+}
+    
 
     private static void deleteNode(Tree.Node root, int value) {
         Tree.Node node = findValue(root, value);
@@ -240,6 +243,7 @@ public class BSTOperations {
         if (node.balanceFactor > 1) {
             if (node.left.balanceFactor < 0) {
                 node.left = leftRotationOptimized(node.left);
+                node.left.parent = node;
 
             }
             node = rightRotationOptimized(node);
@@ -247,6 +251,7 @@ public class BSTOperations {
 
             if (node.right.balanceFactor > 0) {
                 node.right = rightRotationOptimized(node.right);
+                node.right.parent = node;
 
             }
             node = leftRotationOptimized(node);
@@ -297,23 +302,21 @@ public class BSTOperations {
 
         x.right = node;
         node.left = T2;
-        
-        x.parent = parent;
-        node.parent =x;
 
-        if(T2 !=null){
+        x.parent = parent;
+        node.parent = x;
+
+        if (T2 != null) {
             T2.parent = node;
         }
 
-        if(parent !=null){
-            if(parent.left == node){
+        if (parent != null) {
+            if (parent.left == node) {
                 parent.left = x;
-            }else{
+            } else {
                 parent.right = x;
             }
         }
-
-
 
         updateHeight(node);
         updateHeight(x);
@@ -321,4 +324,60 @@ public class BSTOperations {
         return x;
     }
 
+    private static Tree.Node delete(Tree.Node root, int value) {
+
+        Tree.Node node = root;
+        if(node == null){
+            return null;
+        }
+
+
+
+        if (node.data == value) {
+            if (node.left == null || node.right == null) {
+                Tree.Node parent = node.parent;
+                node = (node.left != null) ? node.left : node.right;
+                if(node != null){
+                    node.parent = parent;
+                    return node;
+                }else{
+                    return null;
+                }
+               
+               
+            } else if (node.right != null) {
+                int lowest = findLowest(node.right);
+                node.data = lowest;
+                node.right = delete(node.right, lowest);
+                if(node.right != null){
+                    node.right.parent = node;
+                }
+
+            } 
+
+        } else if (node.data > value) {
+                node.left = delete(node.left, value);
+                if(node.left != null){
+                    node.left.parent =node;
+                }
+            } else if(node.data < value) {
+                node.right = delete(node.right, value);
+                if(node.right != null){
+                    node.right.parent = node;
+                }
+            }
+        
+            
+
+        updateHeight(node);
+        Tree.Node balancedNode = rebalance(node);
+        return balancedNode;
+
+    }
+    private static int findLowest(Tree.Node node){
+        if(node.left == null){
+            return node.data;
+        }
+        return findLowest(node.left);
+    }
 }
