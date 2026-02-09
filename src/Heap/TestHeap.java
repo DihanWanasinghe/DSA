@@ -51,6 +51,8 @@ public class TestHeap {
     }
 
     private int minmunExtraction(){
+        if (lastIndex == 0)
+            throw new IllegalStateException("Heap empty");
         int min = heapArray[0];
         heapArray[0] = heapArray[lastIndex-1];
         lastIndex--;
@@ -100,9 +102,10 @@ public class TestHeap {
                 heapifyUp(parentIndex);
         }
 
-        if(parentIndex >0 ){
-           heapifyUp(parentIndex);
-        }
+        // apparently this was wrong
+//        if(parentIndex >0 ){
+//           heapifyUp(parentIndex);
+//        }
 
     }
 
