@@ -30,15 +30,13 @@ public class Runner {
         for (Vertex v : vertexes)
             distances.put(v, Integer.MAX_VALUE);
 
-
-
-
         WrappedVertex  wrappedSource = new WrappedVertex(source,0);
         // this needs to be changed
         // heap can be larger than the number of vertexes because multiple edges to the same node
             Heap heap = new Heap(vertexes.length);
             heap.insert(wrappedSource);
-            while(!heap.isEmpty()) {
+           distances.put(source, 0);
+        while(!heap.isEmpty()) {
                 WrappedVertex wrappedVertex = heap.minmunExtraction();
                 if(wrappedVertex.getVertex().isExplored()) {
                     continue;
@@ -72,33 +70,27 @@ public class Runner {
 
     private static  void dijkstrasBetter(Vertex[] vertexes, Vertex source) {
         Map<Vertex, Integer> distances = new HashMap<>();
-
-
-
-        for (Vertex v : vertexes)
-            distances.put(v, Integer.MAX_VALUE);
-
-
-
-
-        WrappedVertex  wrappedSource = new WrappedVertex(source,0);
         Heap heap = new Heap(vertexes.length);
-        heap.insert(wrappedSource);
+        for (Vertex v : vertexes) {
+            distances.put(v, Integer.MAX_VALUE);
+            heap.insert(new WrappedVertex(v, Integer.MAX_VALUE));
+        }
+        distances.put(source, 0);
+        heap.decreaseKey(source, 0);
+
         while(!heap.isEmpty()) {
             WrappedVertex wrappedVertex = heap.minmunExtraction();
-            if(wrappedVertex.getVertex().isExplored()) {
-                continue;
-            }
             wrappedVertex.getVertex().setExplored(true);
             List<Edge> edges =  wrappedVertex.getVertex().getEdges() ;
             for(Edge edge : edges) {
                 Vertex neighbor = edge.getNeighbor();
-                if(neighbor.isExplored()) {
-                    continue;
-                }
+                if (neighbor.isExplored()) continue;
+
                 int newDistance = wrappedVertex.getDistance() + edge.getWeight();
 //                    heap.insert(wrappedNeighbor);
                 if(newDistance < distances.get(neighbor)) {
+
+
                     distances.put(neighbor, newDistance);
                     heap.decreaseKey(neighbor, newDistance);
 //                    heap.insert(wrappedNeighbor);
